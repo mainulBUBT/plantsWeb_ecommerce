@@ -158,7 +158,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                     <?php
                   }
                   ?>
-                  <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+                  <form method="POST" action="">
                     <div class="form-group">
                       <label for="exampleInputEmail1">Email address</label>
                       <input type="email" class="form-control" name="email" />
