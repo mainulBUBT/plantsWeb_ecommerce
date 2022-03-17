@@ -1,5 +1,14 @@
 <?php
 session_start();
+$fees = 0;
+if(isset($_SESSION['USER_NAME']))
+{
+  $NAME= $_SESSION["USER_NAME"];
+  $ids = $_SESSION["USER_ID"];
+}
+else {
+  echo "<script> location.href='user_login.php' </script>";
+}
 // session_destroy();
 require_once "config/database.php";
 
@@ -250,11 +259,22 @@ else if(isset($_POST['remove']))
           </dl>
           <dl class="dlist-align">
             <dt>Delivery Fee:</dt>
-            <dd class="text-right ml-3"> $60.00</dd>
+            <?php if(isset($_SESSION['cart'])){ 
+              if(count($_SESSION['cart'])>0)
+              {?>
+                <dd class="text-right ml-3"> $<?php $fees=60; echo $fees; ?></dd>
+              <?php
+            }
+            else
+            {?>
+              <dd class="text-right ml-3"> $<?php $fees=0; echo $fees; ?></dd>
+            <?php
+          }
+          }?> 
           </dl>
           <dl class="dlist-align">
             <dt>Total:</dt>
-            <dd class="text-right text-dark b ml-3"><strong>$<?php echo $total+60; ?></strong></dd>
+            <dd class="text-right text-dark b ml-3"><strong>$<?php echo $total+$fees; ?></strong></dd>
           </dl>
           <hr> <a href="billing.php" class="btn btn-out btn-primary btn-square btn-main" data-abc="true"> Checkout Order </a> <a href="index.php" class="btn btn-out btn-success btn-square btn-main mt-2" data-abc="true">Continue Shopping</a>
     </div>
@@ -263,12 +283,7 @@ else if(isset($_POST['remove']))
 </div>
 </div>
 
-<!-------------First JQuery then Popper then Bootstrap then Fontawesome ------------->
-
-<script src="../assets/js/jquery.js"></script>
-<script src="../assets/js/popper.min.js"></script>
-<script src="../assets/js/bootstrap.min.js"></script>
-<script src="https://kit.fontawesome.com/417824116f.js" crossorigin="anonymous"></script>
+<?php include 'include/footer.php' ?>
 
 
 </body>

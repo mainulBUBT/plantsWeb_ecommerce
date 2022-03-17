@@ -170,7 +170,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                     <button type="submit" class="btn btn-theme btn-block" name="register">Login</button>
                   </form>
                 </div>
-                <p class="text-muted text-center mb-2">New? Create an account-> <a href="login.html" class="text-primary ml-1">Register</a></p>
+                <p class="text-muted text-center mb-2">New? Create an account-> <a href="user_register.php" class="text-primary ml-1">Register</a></p>
               </div>
               <div class="col-lg-6 d-none d-lg-inline-block">
                 <div class="account-block rounded-right">
@@ -191,14 +191,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
   </div>
 
 
-  <!-------------First JQuery then Popper then Bootstrap then Fontawesome ------------->
-
-  <script src="../assets/js/jquery.js"></script>
-  <script src="../assets/js/popper.min.js"></script>
-  <script src="../assets/js/bootstrap.min.js"></script>
-  <script src="https://kit.fontawesome.com/417824116f.js" crossorigin="anonymous"></script>
-
-
+<?php include "include/footer.php"; ?>
 </body>
 </html>
 

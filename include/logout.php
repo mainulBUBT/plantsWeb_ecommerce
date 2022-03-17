@@ -1,21 +1,12 @@
 <?php
 session_start();
-if(isset($_SESSION['MERCHANT_NAME']))
+if(isset($_SESSION['USER_NAME']))
 {
-	unset($_SESSION["MERCHANT_ID"]);
-	unset($_SESSION["MERCHANT_NAME"]);
-	header("Location:../merchant/user_login.php");
+	unset($_SESSION["USER_NAME"]);
+	unset($_SESSION["USER_ID"]);
+	header("Location:../user_login.php");
 }
-elseif (isset($_SESSION['ANAME'])) {
-	unset($_SESSION["ADMIN_ID"]);
-	unset($_SESSION["ANAME"]);
-	header("Location:../admin/admin_login.php");
-}
-elseif (isset($_SESSION['SNAME'])) {
-	unset($_SESSION["SMEMBER_ID"]);
-	unset($_SESSION["SNAME"]);
-	header("Location:../staff/staff_login.php");
-}
+
 
 ?>
 
