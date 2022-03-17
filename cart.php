@@ -47,12 +47,13 @@ if(isset($_POST['order'])){
   $amount = $_POST['amount'];
 
   foreach($_SESSION['cart'] as $k => $item){
-    $query = "INSERT INTO `orders` (`user_id`, `cat_id`, `product_id`, `amount`) VALUES (?, ?, ?, ?)";
+    $query = "INSERT INTO `orders` (`user_id`, `cat_id`, `product_id`,`quantity`, `amount`) VALUES (?, ?, ?, ?, ?)";
     if($stmt = $mysqli->prepare($query)) {
-      $stmt->bind_param("ssss", $param_user_id, $param_cat_id, $param_product_id, $param_amount);
+      $stmt->bind_param("sssss", $param_user_id, $param_cat_id, $param_product_id, $param_quantity, $param_amount);
       $param_user_id = $_SESSION['USER_ID'];
       $param_cat_id = $item['cat'];
       $param_product_id = $item['id'];
+      $param_quantity = $item['quantity'];
       $param_amount = $amount;
 
 
@@ -306,7 +307,7 @@ if(isset($_POST['order'])){
               <dt>Total:</dt>
               <dd class="text-right text-dark b ml-3"><strong>$<?php echo $total+$fees; ?></strong></dd>
             </dl>
-            <hr> <a href="billing.php" class="btn btn-out btn-primary btn-square btn-main" data-abc="true" data-toggle="modal" data-target="#cartModal"> Checkout Order </a> <a href="index.php" class="btn btn-out btn-success btn-square btn-main mt-2" data-abc="true">Continue Shopping</a>
+            <hr> <a href="#" class="btn btn-out btn-primary btn-square btn-main" data-abc="true" data-toggle="modal" data-target="#cartModal"> Checkout Order </a> <a href="index.php" class="btn btn-out btn-success btn-square btn-main mt-2" data-abc="true">Continue Shopping</a>
           </div>
         </div>
       </aside>

@@ -3,7 +3,14 @@ session_start();
 
 require_once "config/database.php";
 
-
+if(isset($_SESSION['USER_NAME']))
+{
+  $NAME= $_SESSION["USER_NAME"];
+  $id = $_SESSION["USER_ID"];
+}
+else {
+  echo "<script> location.href='user_login.php' </script>";
+}
 
 ?>
 
@@ -97,365 +104,45 @@ require_once "config/database.php";
     <div class="col-lg-12">
       <div class="card">
         <div class="card-body">
-          <div class="table-responsive project-list">
-            <table class="table project-table table-centered table-nowrap">
-              <thead>
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Projects</th>
-                  <th scope="col">Start Date</th>
-                  <th scope="col">Status</th>
-                  <th scope="col">Team</th>
-                  <th scope="col">Progress</th>
-                  <th scope="col">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th scope="row">1</th>
-                  <td>New admin Design</td>
-                  <td>02/5/2019</td>
-                  <td>
-                    <span class="text-success font-12"><i class="mdi mdi-checkbox-blank-circle mr-1"></i> Completed</span>
-                  </td>
-                  <td>
-                    <div class="team">
-                      <a href="javascript: void(0);" class="team-member" data-toggle="tooltip" data-placement="top" title="" data-original-title="Roger Drake">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar6.png" class="rounded-circle avatar-xs" alt="" />
-                      </a>
+          <table id="employee_data" class="table table-striped table-bordered" style="width:100%">
+            <thead>
+              <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Unit Price</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Total Amount</th>
+                <th scope="col">Category</th>
+                <th scope="col">Order Status</th>
+                <th scope="col">Pay Status</th>
+              </tr>
+            </thead>
+            <tbody>
+             <?php
+             $sql = "SELECT p.product_name,p.price, c.cat_name, o.order_status, o.pay_status, o.quantity, o.amount, o.order_id
+          FROM products p
+          INNER JOIN category c ON p.cat_id = c.cat_id
+          INNER JOIN orders o ON p.plant_id   = o.product_id
+          INNER JOIN users u ON o.user_id = u.user_id
+          WHERE o.user_id='$id' ORDER BY o.order_id ASC";
+             $result = $mysqli -> query($sql);
+             while( $row = $result -> fetch_assoc())
+             {
 
-                      <a href="javascript: void(0);" class="team-member" data-toggle="tooltip" data-placement="top" title="" data-original-title="Reggie James">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" class="rounded-circle avatar-xs" alt="" />
-                      </a>
-
-                      <a href="javascript: void(0);" class="team-member" data-toggle="tooltip" data-placement="top" title="" data-original-title="Gerald Mayberry">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar8.png" class="rounded-circle avatar-xs" alt="" />
-                      </a>
-                    </div>
-                  </td>
-                  <td>
-                    <p class="mb-0">Progress<span class="float-right">100%</span></p>
-
-                    <div class="progress mt-2" style="height: 5px;">
-                      <div class="progress-bar bg-success" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                  </td>
-
-                  <td>
-                    <div class="action">
-                      <a href="#" class="text-success mr-4" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"> <i class="fa fa-pencil h5 m-0"></i></a>
-                      <a href="#" class="text-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="Close"> <i class="fa fa-remove h5 m-0"></i></a>
-                    </div>
-                  </td>
-                </tr>
-
-                <tr>
-                  <th scope="row">2</th>
-                  <td>Landing page Design</td>
-                  <td>04/6/2019</td>
-                  <td>
-                    <span class="text-primary font-12"><i class="mdi mdi-checkbox-blank-circle mr-1"></i> Pending</span>
-                  </td>
-                  <td>
-                    <div class="team">
-                      <a href="javascript: void(0);" class="team-member" data-toggle="tooltip" data-placement="top" title="" data-original-title="Deborah Mixon">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar2.png" class="rounded-circle avatar-xs" alt="" />
-                      </a>
-
-                      <a href="javascript: void(0);" class="team-member" data-toggle="tooltip" data-placement="top" title="" data-original-title="Scott Jessie">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="rounded-circle avatar-xs" alt="" />
-                      </a>
-                    </div>
-                  </td>
-                  <td>
-                    <p class="mb-0">Progress<span class="float-right">78%</span></p>
-
-                    <div class="progress mt-2" style="height: 5px;">
-                      <div class="progress-bar bg-primary" role="progressbar" style="width: 78%;" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                  </td>
-
-                  <td>
-                    <div class="action">
-                      <a href="#" class="text-success mr-4" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"> <i class="fa fa-pencil h5 m-0"></i></a>
-                      <a href="#" class="text-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="Close"> <i class="fa fa fa-remove h5 m-0"></i></a>
-                    </div>
-                  </td>
-                </tr>
-
-                <tr>
-                  <th scope="row">3</th>
-                  <td>Multipurpose Landing Template</td>
-                  <td>06/6/2019</td>
-                  <td>
-                    <span class="text-success font-12"><i class="mdi mdi-checkbox-blank-circle mr-1"></i> Completed</span>
-                  </td>
-                  <td>
-                    <div class="team">
-                      <a href="javascript: void(0);" class="team-member" data-toggle="tooltip" data-placement="top" title="" data-original-title="Neil Wing">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar3.png" class="rounded-circle avatar-xs" alt="" />
-                      </a>
-
-                      <a href="javascript: void(0);" class="team-member" data-toggle="tooltip" data-placement="top" title="" data-original-title="Stanley Barber">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar4.png" class="rounded-circle avatar-xs" alt="" />
-                      </a>
-                      <a href="javascript: void(0);" class="team-member" data-toggle="tooltip" data-placement="top" title="" data-original-title="Roger Drake">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar5.png" class="rounded-circle avatar-xs" alt="" />
-                      </a>
-
-                      <a href="javascript: void(0);" class="team-member" data-toggle="tooltip" data-placement="top" title="" data-original-title="Jack Krier">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar6.png" class="rounded-circle avatar-xs" alt="" />
-                      </a>
-                    </div>
-                  </td>
-                  <td>
-                    <p class="mb-0">Progress<span class="float-right">100%</span></p>
-
-                    <div class="progress mt-2" style="height: 5px;">
-                      <div class="progress-bar bg-success" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                  </td>
-
-                  <td>
-                    <div class="action">
-                      <a href="#" class="text-success mr-4" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"> <i class="fa fa-pencil h5 m-0"></i></a>
-                      <a href="#" class="text-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="Close"> <i class="fa fa fa-remove h5 m-0"></i></a>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">4</th>
-                  <td>Blog Template Design</td>
-                  <td>07/5/2019</td>
-                  <td>
-                    <span class="text-success font-12"><i class="mdi mdi-checkbox-blank-circle mr-1"></i> Completed</span>
-                  </td>
-                  <td>
-                    <div class="team">
-                      <a href="javascript: void(0);" class="team-member" data-toggle="tooltip" data-placement="top" title="" data-original-title="Roger Drake">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" class="rounded-circle avatar-xs" alt="" />
-                      </a>
-
-                      <a href="javascript: void(0);" class="team-member" data-toggle="tooltip" data-placement="top" title="" data-original-title="Reggie James">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar8.png" class="rounded-circle avatar-xs" alt="" />
-                      </a>
-
-                      <a href="javascript: void(0);" class="team-member" data-toggle="tooltip" data-placement="top" title="" data-original-title="Gerald Mayberry">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="rounded-circle avatar-xs" alt="" />
-                      </a>
-                    </div>
-                  </td>
-                  <td>
-                    <p class="mb-0">Progress<span class="float-right">100%</span></p>
-
-                    <div class="progress mt-2" style="height: 5px;">
-                      <div class="progress-bar bg-success" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                  </td>
-
-                  <td>
-                    <div class="action">
-                      <a href="#" class="text-success mr-4" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"> <i class="fa fa-pencil h5 m-0"></i></a>
-                      <a href="#" class="text-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="Close"> <i class="fa fa fa-remove h5 m-0"></i></a>
-                    </div>
-                  </td>
-                </tr>
-
-                <tr>
-                  <th scope="row">5</th>
-                  <td>Brand logo design</td>
-                  <td>08/6/2019</td>
-                  <td>
-                    <span class="text-primary font-12"><i class="mdi mdi-checkbox-blank-circle mr-1"></i> Pending</span>
-                  </td>
-                  <td>
-                    <div class="team">
-                      <a href="javascript: void(0);" class="team-member" data-toggle="tooltip" data-placement="top" title="" data-original-title="Deborah Mixon">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="rounded-circle avatar-xs" alt="" />
-                      </a>
-
-                      <a href="javascript: void(0);" class="team-member" data-toggle="tooltip" data-placement="top" title="" data-original-title="Scott Jessie">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar2.png" class="rounded-circle avatar-xs" alt="" />
-                      </a>
-                    </div>
-                  </td>
-                  <td>
-                    <p class="mb-0">Progress<span class="float-right">54%</span></p>
-
-                    <div class="progress mt-2" style="height: 5px;">
-                      <div class="progress-bar bg-primary" role="progressbar" style="width: 54%;" aria-valuenow="54" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                  </td>
-
-                  <td>
-                    <div class="action">
-                      <a href="#" class="text-success mr-4" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"> <i class="fa fa-pencil h5 m-0"></i></a>
-                      <a href="#" class="text-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="Close"> <i class="fa fa fa-remove h5 m-0"></i></a>
-                    </div>
-                  </td>
-                </tr>
-
-                <tr>
-                  <th scope="row">6</th>
-                  <td>Redesign - Landing page</td>
-                  <td>10/6/2019</td>
-                  <td>
-                    <span class="text-primary font-12"><i class="mdi mdi-checkbox-blank-circle mr-1"></i> Pending</span>
-                  </td>
-                  <td>
-                    <div class="team">
-                      <a href="javascript: void(0);" class="team-member" data-toggle="tooltip" data-placement="top" title="" data-original-title="Neil Wing">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar6.png" class="rounded-circle avatar-xs" alt="" />
-                      </a>
-
-                      <a href="javascript: void(0);" class="team-member" data-toggle="tooltip" data-placement="top" title="" data-original-title="Stanley Barber">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar5.png" class="rounded-circle avatar-xs" alt="" />
-                      </a>
-                      <a href="javascript: void(0);" class="team-member" data-toggle="tooltip" data-placement="top" title="" data-original-title="Roger Drake">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar4.png" class="rounded-circle avatar-xs" alt="" />
-                      </a>
-
-                      <a href="javascript: void(0);" class="team-member" data-toggle="tooltip" data-placement="top" title="" data-original-title="Jack Krier">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar3.png" class="rounded-circle avatar-xs" alt="" />
-                      </a>
-                    </div>
-                  </td>
-                  <td>
-                    <p class="mb-0">Progress<span class="float-right">41%</span></p>
-
-                    <div class="progress mt-2" style="height: 5px;">
-                      <div class="progress-bar bg-primary" role="progressbar" style="width: 41%;" aria-valuenow="41" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                  </td>
-
-                  <td>
-                    <div class="action">
-                      <a href="#" class="text-success mr-4" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"> <i class="fa fa-pencil h5 m-0"></i></a>
-                      <a href="#" class="text-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="Close"> <i class="fa fa fa-remove h5 m-0"></i></a>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">7</th>
-                  <td>Redesign - Dashboard</td>
-                  <td>12/5/2019</td>
-                  <td>
-                    <span class="text-success font-12"><i class="mdi mdi-checkbox-blank-circle mr-1"></i> Completed</span>
-                  </td>
-                  <td>
-                    <div class="team">
-                      <a href="javascript: void(0);" class="team-member" data-toggle="tooltip" data-placement="top" title="" data-original-title="Roger Drake">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar6.png" class="rounded-circle avatar-xs" alt="" />
-                      </a>
-
-                      <a href="javascript: void(0);" class="team-member" data-toggle="tooltip" data-placement="top" title="" data-original-title="Reggie James">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" class="rounded-circle avatar-xs" alt="" />
-                      </a>
-                    </div>
-                  </td>
-                  <td>
-                    <p class="mb-0">Progress<span class="float-right">100%</span></p>
-                    <div class="progress mt-2" style="height: 5px;">
-                      <div class="progress-bar bg-success" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                  </td>
-
-                  <td>
-                    <div class="action">
-                      <a href="#" class="text-success mr-4" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"> <i class="fa fa-pencil h5 m-0"></i></a>
-                      <a href="#" class="text-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="Close"> <i class="fa fa fa-remove h5 m-0"></i></a>
-                    </div>
-                  </td>
-                </tr>
-
-                <tr>
-                  <th scope="row">8</th>
-                  <td>Landing page Design</td>
-                  <td>13/6/2019</td>
-                  <td>
-                    <span class="text-primary font-12"><i class="mdi mdi-checkbox-blank-circle mr-1"></i> Pending</span>
-                  </td>
-                  <td>
-                    <div class="team">
-                      <a href="javascript: void(0);" class="team-member" data-toggle="tooltip" data-placement="top" title="" data-original-title="Deborah Mixon">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar2.png" class="rounded-circle avatar-xs" alt="" />
-                      </a>
-
-                      <a href="javascript: void(0);" class="team-member" data-toggle="tooltip" data-placement="top" title="" data-original-title="Scott Jessie">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="rounded-circle avatar-xs" alt="" />
-                      </a>
-                    </div>
-                  </td>
-                  <td>
-                    <p class="mb-0">Progress<span class="float-right">84%</span></p>
-
-                    <div class="progress mt-2" style="height: 5px;">
-                      <div class="progress-bar bg-primary" role="progressbar" style="width: 84%;" aria-valuenow="84" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                  </td>
-
-                  <td>
-                    <div class="action">
-                      <a href="#" class="text-success mr-4" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"> <i class="fa fa-pencil h5 m-0"></i></a>
-                      <a href="#" class="text-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="Close"> <i class="fa fa fa-remove h5 m-0"></i></a>
-                    </div>
-                  </td>
-                </tr>
-
-                <tr>
-                  <th scope="row">9</th>
-                  <td>Multipurpose Landing Template</td>
-                  <td>15/6/2019</td>
-                  <td>
-                    <span class="text-success font-12"><i class="mdi mdi-checkbox-blank-circle mr-1"></i> Completed</span>
-                  </td>
-                  <td>
-                    <div class="team">
-                      <a href="javascript: void(0);" class="team-member" data-toggle="tooltip" data-placement="top" title="" data-original-title="Neil Wing">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar4.png" class="rounded-circle avatar-xs" alt="" />
-                      </a>
-
-                      <a href="javascript: void(0);" class="team-member" data-toggle="tooltip" data-placement="top" title="" data-original-title="Stanley Barber">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar3.png" class="rounded-circle avatar-xs" alt="" />
-                      </a>
-                      <a href="javascript: void(0);" class="team-member" data-toggle="tooltip" data-placement="top" title="" data-original-title="Roger Drake">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar5.png" class="rounded-circle avatar-xs" alt="" />
-                      </a>
-                    </div>
-                  </td>
-                  <td>
-                    <p class="mb-0">Progress<span class="float-right">100%</span></p>
-
-                    <div class="progress mt-2" style="height: 5px;">
-                      <div class="progress-bar bg-success" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                  </td>
-
-                  <td>
-                    <div class="action">
-                      <a href="#" class="text-success mr-4" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"> <i class="fa fa-pencil h5 m-0"></i></a>
-                      <a href="#" class="text-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="Close"> <i class="fa fa fa-remove h5 m-0"></i></a>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+              ?>
+              <tr>
+                <td><?php echo $row["product_name"]?></td>
+                <td><?php echo $row["price"]?></td>
+                <td><?php echo $row["quantity"]?></td>
+                <td><?php echo $row["amount"]?></td>
+                <td><?php echo $row["cat_name"]?></td>
+                <td><?php echo $row["order_status"]?></td>
+                <td><?php echo $row["pay_status"]?></td>
+              </tr>
+              <?php
+            }
+            ?>
+          </table> 
           <!-- end project-list -->
-
-          <div class="pt-3">
-            <ul class="pagination justify-content-end mb-0">
-              <li class="page-item disabled">
-                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-              </li>
-              <li class="page-item"><a class="page-link" href="#">1</a></li>
-              <li class="page-item active"><a class="page-link" href="#">2</a></li>
-              <li class="page-item"><a class="page-link" href="#">3</a></li>
-              <li class="page-item">
-                <a class="page-link" href="#">Next</a>
-              </li>
-            </ul>
-          </div>
         </div>
       </div>
     </div>
@@ -463,16 +150,16 @@ require_once "config/database.php";
   <!-- end row -->
 </div>
 
+<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>  
+<script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>            
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" />  
 
-
-<!-------------First JQuery then Popper then Bootstrap then Fontawesome ------------->
-
-<script src="../assets/js/jquery.js"></script>
-<script src="../assets/js/popper.min.js"></script>
-<script src="../assets/js/bootstrap.min.js"></script>
-<script src="https://kit.fontawesome.com/417824116f.js" crossorigin="anonymous"></script>
-
-
+<?php include 'include/footer.php' ?>
+<script>  
+ $(document).ready(function(){  
+  $('#employee_data').DataTable();  
+});  
+</script>  
 </body>
 </html>
 

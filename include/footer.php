@@ -40,4 +40,5 @@ else{?>
 <script src="./assets/js/jquery.js"></script>
 <script src="./assets/js/popper.min.js"></script>
 <script src="./assets/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="./assets/DataTables/datatables.min.js"></script>
 <script src="https://kit.fontawesome.com/417824116f.js" crossorigin="anonymous"></script>

@@ -64,7 +64,7 @@ if(isset($_POST['add-cart'])){
                 <!--  <div class="post-meta"><span class="small lh-120"><i class="fas fa-map-marker-alt mr-2"></i>Los-Angeles, Hollywood, USA</span></div> -->
                 
                 <h3 class="text-center">
-                  $<?php echo $row["price"]?>
+                  $<?php echo $row["price"];?>
                 </h3>
 
                 <form action="index.php" method="POST">
