@@ -37,13 +37,38 @@ if(isset($_GET['id']))
 {
   $id = $_GET['id'];
   unset($_SESSION['cart'][$id]);
-  echo $id;
   header("Location: cart.php");
 }
 // echo "<pre>";
 // print_r($_SESSION['cart']);
 // echo "</pre>";
 
+if(isset($_POST['order'])){
+  $amount = $_POST['amount'];
+
+  foreach($_SESSION['cart'] as $k => $item){
+    $query = "INSERT INTO `orders` (`user_id`, `cat_id`, `product_id`, `amount`) VALUES (?, ?, ?, ?)";
+    if($stmt = $mysqli->prepare($query)) {
+      $stmt->bind_param("ssss", $param_user_id, $param_cat_id, $param_product_id, $param_amount);
+      $param_user_id = $_SESSION['USER_ID'];
+      $param_cat_id = $item['cat'];
+      $param_product_id = $item['id'];
+      $param_amount = $amount;
+
+
+
+      if($stmt->execute()) {
+        unset($_SESSION['cart'][$param_product_id]);
+        header('Location: user_login.php');
+      } else {
+        $msg = "Something went wrong please try again.";
+      }
+
+                //close statement
+      $stmt->close();
+    }
+  }
+}
 
 ?>
 
@@ -191,14 +216,14 @@ if(isset($_GET['id']))
              <?php if(isset($_SESSION['cart'])) :?>
               <?php foreach($_SESSION['cart'] as $k => $item) :?>
                 <form action="" method="POST"> 
-                <tr>
-                  <td>
-                    <figure class="itemside align-items-center">
-                      <div class="aside"><img src="assets/images/<?php echo $item['img']; ?>" class="img-sm"></div>
-                      <figcaption class="info"> <a href="#" class="title text-dark" data-abc="true"><?php echo $item['name']; ?></a>
-                        <?php 
-                        $cat_id = $item["cat"];
-                        $sql = "SELECT * FROM `category` WHERE cat_id='$cat_id'";
+                  <tr>
+                    <td>
+                      <figure class="itemside align-items-center">
+                        <div class="aside"><img src="assets/images/<?php echo $item['img']; ?>" class="img-sm"></div>
+                        <figcaption class="info"> <a href="#" class="title text-dark" data-abc="true"><?php echo $item['name']; ?></a>
+                          <?php 
+                          $cat_id = $item["cat"];
+                          $sql = "SELECT * FROM `category` WHERE cat_id='$cat_id'";
                           $result = $mysqli->query($sql); // get the mysqli result
                           $row = $result->fetch_assoc();
                           ?>
@@ -229,8 +254,8 @@ if(isset($_GET['id']))
                     <td class="text-right d-none d-md-block">
                       <button class="btn btn-light" type="submit" name="update" value="<?php echo $item['id']; ?>"><i class="fa fa-refresh"></i> Update</button>
                       <a class="btn btn-light" href="cart.php?id=<?php echo $item['id']; ?>"><i class="fa fa-trash-o"></i> Remove</a>
-                  </td>
-                </tr>
+                    </td>
+                  </tr>
                 </form>
                 <?php $total += $item['quantity']*$item['price'];
                 ?>
@@ -281,10 +306,67 @@ if(isset($_GET['id']))
               <dt>Total:</dt>
               <dd class="text-right text-dark b ml-3"><strong>$<?php echo $total+$fees; ?></strong></dd>
             </dl>
-            <hr> <a href="billing.php" class="btn btn-out btn-primary btn-square btn-main" data-abc="true"> Checkout Order </a> <a href="index.php" class="btn btn-out btn-success btn-square btn-main mt-2" data-abc="true">Continue Shopping</a>
+            <hr> <a href="billing.php" class="btn btn-out btn-primary btn-square btn-main" data-abc="true" data-toggle="modal" data-target="#cartModal"> Checkout Order </a> <a href="index.php" class="btn btn-out btn-success btn-square btn-main mt-2" data-abc="true">Continue Shopping</a>
           </div>
         </div>
       </aside>
+    </div>
+  </div>
+
+
+  <div class="modal fade" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header border-bottom-0">
+          <h5 class="modal-title" id="exampleModalLabel">
+            Your Shopping Cart
+          </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <table class="table table-image">
+            <thead>
+              <tr>
+                <th scope="col"></th>
+                <th scope="col">Product</th>
+                <th scope="col">Price</th>
+                <th scope="col">Qty</th>
+                <th scope="col">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php $totals =0; $value="";?>
+              <?php if(isset($_SESSION['cart'])) :?>
+                <?php foreach($_SESSION['cart'] as $k => $item) :?>
+                  <tr>
+                    <td class="w-25">
+                      <img src="assets/images/<?php echo $item['img']; ?>"  alt="Sheep" height = "50px">
+                    </td>
+                    <td><?php echo $item['name']; ?></td>
+                    <td>$<?php echo $item['price'];?></td>
+                    <td class="qty"><?php echo $item['quantity']; ?></td>
+                    <td>$<?php echo $item['price']*$item['quantity']; ?></td>
+                  </tr>
+                  <?php $totals += $item['quantity']*$item['price'];
+                  ?>
+                <?php endforeach ?>
+              <?php endif ?>
+            </tbody>
+          </table> 
+          <div class="d-flex justify-content-end">
+            <h5>Total: <span class="price text-success">$<?php echo $totals+$fees; ?> (60$ Charge)</span></h5>
+          </div>
+        </div>
+        <div class="modal-footer border-top-0 d-flex justify-content-between">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <form action="" method="POST">
+            <input type="hidden" name="amount" value="<?php echo $totals+$fees; ?>">
+            <button type="submit" class="btn btn-success" name="order">Place Order</button>
+          </form>
+        </div>
+      </div>
     </div>
   </div>
 

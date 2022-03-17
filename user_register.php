@@ -200,7 +200,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                       <label for="exampleInputPassword1">Re-Password</label>
                       <input type="password" class="form-control" name="password2" />
                     </div>
-                    <button type="submit" class="btn btn-theme btn-block" name="register">Register</button>
+                    <button type="submit" class="btn btn-theme btn-block">Register</button>
                   </form>
                 </div>
                 <p class="text-muted text-center mb-2">Already have an account? <a href="login.html" class="text-primary ml-1">login</a></p>

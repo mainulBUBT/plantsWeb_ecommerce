@@ -29,7 +29,7 @@
  						<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Categories</a>
  						<div class="dropdown-menu">
  							<?php
- 							require_once "config/database.php";
+ 							require_once "./config/database.php";
 
  							$sql = "SELECT * FROM `category`";
  								$result = $mysqli->query($sql); // get the mysqli result
