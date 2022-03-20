@@ -7,155 +7,153 @@ $id = '';
 
 if(isset($_GET['id'])){
   $id = $_GET['id'];
- 
+
 
 }
 
 $sql = "SELECT * FROM products WHERE plant_id=?"; // SQL with parameters
-  $stmt = $mysqli->prepare($sql); 
-  $stmt->bind_param("i", $id);
-  $stmt->execute();
+$stmt = $mysqli->prepare($sql); 
+$stmt->bind_param("i", $id);
+$stmt->execute();
   $result = $stmt->get_result(); // get the mysqli result
   $row = $result->fetch_assoc();
-  echo $row;
+  print_r($row);
 
-?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <title>Responsive Navbar In Bootstrap 4</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="assets/css/styles.css">
-  <link rel="stylesheet" type="text/css" href="assets/font/all.css">
-<!--   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"> -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  ?>
+
+  <?php include "include/header.php"; ?>
+  <title>PlantsWeb | Nature is Beatuful</title>
   <style>
-    body {
-      margin: 0;
-      font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
-      font-size: 1rem;
-      font-weight: 400;
-      line-height: 1.5;
-      color: #212529;
-      text-align: left;
-      background-color: #e8e8e8de !important;
+
+    .carousel-item {
+      width: 100%
     }
+    .carousel-indicators {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 15;
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-pack: center;
+      justify-content: center;
+      padding-left: 0;
+      margin-right: 15%;
+      margin-left: 15%;
+      list-style: none;
+      background-color: #00000085;
+    }
+    .carousel-control-next-icon {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23fff' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath d='M2.75 0l-1.5 1.5L3.75 4l-2.5 2.5L2.75 8l4-4-4-4z'/%3e%3c/svg%3e");
+      background-color: #000000db;
+    }
+    .carousel-control-prev-icon {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23fff' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath d='M5.25 0l-4 4 4 4 1.5-1.5L4.25 4l2.5-2.5L5.25 0z'/%3e%3c/svg%3e");
+      background-color: #000000db;
+    }
+    .price span {
+      font-size: 18px
+    }
+    .cut {
+      text-decoration: line-through;
+      color: red
+    }
+    .icons i {
+      font-size: 17px;
+      color: green;
+      margin-right: 2px
+    }
+    .offers i {
+      color: green
+    }
+    .delivery i {
+      color: blue
+    }
+    label.radio {
+      cursor: pointer
+    }
+    label.radio input {
+      position: absolute;
+      top: 0;
+      left: 0;
+      visibility: hidden;
+      pointer-events: none
+    }
+    label.radio span {
+      padding: 2px 11px;
+      margin-right: 3px;
+      border: 1px solid #8f37aa;
+      display: inline-block;
+      color: #8f37aa;
+      border-radius: 3px;
+      text-transform: uppercase
+    }
+    label.radio input:checked+span {
+      border-color: #8f37aa;
+      background-color: #8f37aa;
+      color: #fff
+    }
+
   </style>
 </head>
 
 <body>
-  <header>
-    <div class="container" id="top">
-      <div class="row">
-        <div class="col-md-10 col-sm-12 col-xs-12">
-          <ul class=" list-group list-group-horizontal">
-            <li><i class='fas fa-envelope-open pr-2'></i><a href="#" class="pr-5"> Admin@mail.com</a></li>
-            <li><i class='fas fa-phone pr-2'></i><a href="#" class="pr-3"> +12 365 4789</a></li>
-          </ul>
-        </div>
-        <div class="col-md-2 col-sm-12 col-xs-12 text-left">
-          <i class='fab fa-facebook'></i>
-          <i class='fab fa-twitter-square'></i>
-          <i class='fab fa-google-plus-square'></i>
+  <?php include "include/navbar.php"; ?>
+
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card bg-light">
+          <div class="card-body">
+            <div class="row">
+              <?php
+              $sql = "SELECT * FROM products WHERE plant_id=?"; // SQL with parameters
+              $stmt = $mysqli->prepare($sql); 
+              $stmt->bind_param("i", $id);
+              $stmt->execute();
+              $result = $stmt->get_result(); // get the mysqli result
+              $row = $result->fetch_assoc();
+              ?>
+              <div class="col-md-5">
+                <div class="carousel slide" data-ride="carousel" id="carousel-1">
+                  <div class="carousel-inner" role="listbox">
+                    <div class="carousel-item active"><img class="img-thumbnail w-100 d-block" src="assets/images/<?php echo $row['pic_1']?>" alt="Slide Image" loading="lazy"></div>
+                    <div class="carousel-item"><img class="img-thumbnail w-100 d-block" src="assets/images/<?php echo $row['pic_2']?>" alt="Slide Image"></div>
+                    <div class="carousel-item"><img class="img-thumbnail w-100 d-block" src="assets/images/<?php echo $row['pic_3']?>" alt="Slide Image"></div>
+                  </div>
+                  <div><a class="carousel-control-prev" href="#carousel-1" role="button" data-slide="prev"><span class="carousel-control-prev-icon"></span><span class="sr-only">Previous</span></a><a class="carousel-control-next" href="#carousel-1" role="button" data-slide="next"><span class="carousel-control-next-icon"></span><span class="sr-only">Next</span></a></div>
+                  <ol class="carousel-indicators">
+                    <li data-target="#carousel-1" data-slide-to="0" class="active"></li>
+                    <li data-target="#carousel-1" data-slide-to="1"></li>
+                    <li data-target="#carousel-1" data-slide-to="2"></li>
+                  </ol>
+                </div>
+              </div>
+              <div class="col-md-7">
+                <h4><?php echo $row['product_name'];?></h4>
+                <div class="price"><span class="mr-2">৳ <?php echo $row['price'];?></span></div>
+                <div class="d-flex flex-row">
+                  <div class="icons mr-2"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-o"></i><i class="fa fa-star-o"></i></div><span>1200 ratings &amp; 564 reviews</span>
+                </div>
+                <div class="d-flex align-items-center mt-4 offers mb-1"><i class="fa fa-check-square-o mt-1"></i><span class="ml-1 font-weight-bold">Bank Offers</span><span class="ml-1">20% Instant Discount on SBI Credit Cards<br></span></div>
+                <div class="d-flex align-items-center offers mb-1"><i class="fa fa-check-square-o mt-1"></i><span class="ml-1 font-weight-bold">Bank Offers</span><span class="ml-1">5% Unlimited Cashback on Axis Bank Credit Card<br></span></div>
+                <div class="d-flex align-items-center offers mb-1"><i class="fa fa-check-square-o mt-1"></i><span class="ml-1 font-weight-bold">Bank Offers</span><span class="ml-1">Extra 5% off* with Axis Bank Buzz Credit Card<br></span></div>
+                <div class="d-flex align-items-center offers"><i class="fa fa-check-square-o mt-1"></i><span class="ml-1 font-weight-bold">Bank Offers</span><span class="ml-1">20% Instant Discount on pay with&nbsp;&nbsp;google wallet<br></span></div>
+                <div class="d-flex align-items-center mt-5 delivery"><i class="fa fa-map-marker"></i><span class="ml-2">Delivery by 23 Jul, Tuesday<br></span><span class="ml-2 mr-2">|<br></span><span class="ml-2 mr-2 text-success">FREE<br></span></div>
+                <hr>
+                <div class="d-flex align-items-center mt-2"> <label class="radio"> <input type="radio" name="ram" value="128GB" checked> <span>128GB</span> </label> <label class="radio"> <input type="radio" name="ram" value="256GB"> <span>256GB</span> </label> <label class="radio"> <input type="radio" name="ram" value="256GB"> <span>512GB</span> </label> </div>
+                <div><span class="font-weight-bold">Seller:</span><span class="ml-2">Sargam Electronics</span></div>
+                <div class="mt-3"><button class="btn btn-dark mr-2" type="button">ADD TO CART</button><button class="btn btn-success" type="button">BUY NOW</button></div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <nav class="navbar navbar-expand-md navbar-dark ownbg">
-      <a class="navbar-brand text-white pl-5" href="#"><img src="https://w3hubs.com/wp-content/themes/wpex-magtastico/images/logo.png"></a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="collapsibleNavbar">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="#">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="product_details.php/">About</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Service</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#"><i class='fa fa-shopping-cart'></i><span class="badge badge-pill badge-warning ml-1"><?php if(isset($_SESSION['cart'])){ echo count($_SESSION['cart']); }else{ echo '0';} ?></span></a>
-          </li>     
-        </ul>
-      </div>  
-    </nav>
-  </header>
+  </div> 
 
-  <div class="container">
-    <div class="col-lg-10 border p-3 main-section bg-white">
-        <div class="row hedding m-0 pl-3 pt-0 pb-3">
-            Product Detail Design Using Bootstrap 4.0
-        </div>
-        <div class="row m-0">
-            <div class="col-lg-4 left-side-product-box pb-3">
-                <img src="http://nicesnippets.com/demo/pd-image1.jpg" class="border p-3">
-                <span class="sub-img">
-                    <img src="http://nicesnippets.com/demo/pd-image2.jpg" class="border p-2">
-                    <img src="http://nicesnippets.com/demo/pd-image3.jpg" class="border p-2">
-                    <img src="http://nicesnippets.com/demo/pd-image4.jpg" class="border p-2">
-                </span>
-            </div>
-            <div class="col-lg-8">
-                <div class="right-side-pro-detail border p-3 m-0">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <span>Who What Wear</span>
-                            <p class="m-0 p-0">Women's Velvet Dress</p>
-                        </div>
-                        <div class="col-lg-12">
-                            <p class="m-0 p-0 price-pro">$30</p>
-                            <hr class="p-0 m-0">
-                        </div>
-                        <div class="col-lg-12 pt-2">
-                            <h5>Product Detail</h5>
-                            <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                quis nostrud exercitation ullamco laboris.</span>
-                            <hr class="m-0 pt-2 mt-2">
-                        </div>
-                        <div class="col-lg-12">
-                            <p class="tag-section"><strong>Tag : </strong><a href="">Woman</a><a href="">,Man</a></p>
-                        </div>
-                        <div class="col-lg-12">
-                            <h6>Quantity :</h6>
-                            <input type="number" class="form-control text-center w-100" value="1">
-                        </div>
-                        <div class="col-lg-12 mt-3">
-                            <div class="row">
-                                <div class="col-lg-6 pb-2">
-                                    <a href="#" class="btn btn-danger w-100">Add To Cart</a>
-                                </div>
-                                <div class="col-lg-6">
-                                    <a href="#" class="btn btn-success w-100">Shop Now</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</div>
-
-
-
-<!-------------First JQuery then Popper then Bootstrap then Fontawesome ------------->
-
-<script src="../assets/js/jquery.js"></script>
-<script src="../assets/js/popper.min.js"></script>
-<script src="../assets/js/bootstrap.min.js"></script>
-<script src="https://kit.fontawesome.com/417824116f.js" crossorigin="anonymous"></script>
-
+  <?php include "include/footer.php"; ?>
 </body>
 </html>
-
 
