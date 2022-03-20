@@ -477,6 +477,7 @@ if(isset($_POST['add-cart'])){
 
   </div>
 </div>
+
 <section class="pt-5 pb-5">
   <div class="container">
     <div class="row mb-md-2">
