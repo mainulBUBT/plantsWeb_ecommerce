@@ -1,3 +1,23 @@
+<?php 
+include '../config/database.php';
+
+// $query = $mysqli->query("SELECT COUNT(order_id) as orderz, MONTHNAME(date)as month FROM `orders`");
+
+// foreach($query as $data)
+// {
+//   $month[] = $data['month'];
+//   $orderz[] = $data['orderz'];
+// }
+
+?>
+
+
+
+
+
+
+
+
 <?php include 'includes/header.php';?>
 
 
@@ -65,7 +85,7 @@
 								<i class="fas fa-chart-bar me-1"></i>
 								Bar Chart Example
 							</div>
-							<div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
+							<div class="card-body"><?php include 'includes/chart_bar.php'?></canvas></div>
 						</div>
 					</div>
 				</div>
