@@ -95,7 +95,7 @@ else {
               <i class="fa fa-dollar text-primary h4 ml-3"></i>
             </div>
             <h5 class="font-size-20 mt-0 pt-1"><?php echo $rows["paid"]?> ৳</h5>
-            <p class="text-muted mb-0">Received Money</p>
+            <p class="text-muted mb-0">Spend Amount</p>
           </div>
         </div>
       </div>

@@ -11,6 +11,17 @@ if(isset($_SESSION['USER_NAME']))
 else {
   echo "<script> location.href='user_login.php' </script>";
 }
+
+if(isset($_SESSION['cart'])){ 
+ if(count($_SESSION['cart'])>0){
+ }
+ else{
+  echo ("<script LANGUAGE='JavaScript'>
+    window.alert('Cart is empty. Add some to cart');
+    window.location.href='index.php';
+    </script>");
+}
+}else{ echo '0';} 
 // session_destroy();
 
 
@@ -47,14 +58,15 @@ if(isset($_POST['order'])){
   $amount = $_POST['amount'];
 
   foreach($_SESSION['cart'] as $k => $item){
-    $query = "INSERT INTO `orders` (`user_id`, `cat_id`, `product_id`,`quantity`, `amount`) VALUES (?, ?, ?, ?, ?)";
+    $query = "INSERT INTO `orders` (`user_id`, `cat_id`, `product_id`,`quantity`, `amount`, `user_amount`) VALUES (?, ?, ?, ?, ?, ?)";
     if($stmt = $mysqli->prepare($query)) {
-      $stmt->bind_param("sssss", $param_user_id, $param_cat_id, $param_product_id, $param_quantity, $param_amount);
+      $stmt->bind_param("ssssss", $param_user_id, $param_cat_id, $param_product_id, $param_quantity, $param_amount, $param_uamount);
       $param_user_id = $_SESSION['USER_ID'];
       $param_cat_id = $item['cat'];
       $param_product_id = $item['id'];
       $param_quantity = $item['quantity'];
       $param_amount = $amount;
+      $param_uamount = $amount-60;
 
 
 
