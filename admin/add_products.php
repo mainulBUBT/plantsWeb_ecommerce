@@ -71,7 +71,7 @@ if(isset($_POST['submit']))
 
 
 
-	<title>Add New Product</title>
+	<title>Add new product</title>
 
 	<?php include 'includes/header.php';?>
 
