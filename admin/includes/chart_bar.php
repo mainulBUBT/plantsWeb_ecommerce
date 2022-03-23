@@ -21,10 +21,27 @@ foreach($query as $data)
   const data = {
     labels: labels,
     datasets: [{
-      label: 'My First Dataset',
+      label: 'Monthly Orders',
       data: <?php echo json_encode($orderz) ?>,
-      backgroundColor: "rgba(2,117,216,1)",
-      borderColor: "rgba(2,117,216,1)",
+      backgroundColor: [
+      'rgba(255, 99, 132, 0.2)',
+      'rgba(255, 159, 64, 0.2)',
+      'rgba(255, 205, 86, 0.2)',
+      'rgba(75, 192, 192, 0.2)',
+      'rgba(54, 162, 235, 0.2)',
+      'rgba(153, 102, 255, 0.2)',
+      'rgba(201, 203, 207, 0.2)'
+      ],
+      borderColor: [
+      'rgb(255, 99, 132)',
+      'rgb(255, 159, 64)',
+      'rgb(255, 205, 86)',
+      'rgb(75, 192, 192)',
+      'rgb(54, 162, 235)',
+      'rgb(153, 102, 255)',
+      'rgb(201, 203, 207)'
+      ],
+      borderWidth: 1
     }]
   };
 
@@ -33,30 +50,9 @@ foreach($query as $data)
     data: data,
     options: {
       scales: {
-        xAxes: [{
-          time: {
-            unit: 'month'
-          },
-          gridLines: {
-            display: false
-          },
-          ticks: {
-            maxTicksLimit: 6
-          }
-        }],
-        yAxes: [{
-          ticks: {
-            min: 0,
-            max: 15000,
-            maxTicksLimit: 5
-          },
-          gridLines: {
-            display: true
-          }
-        }],
-      },
-      legend: {
-        display: false
+        y: {
+          beginAtZero: true
+        }
       }
     },
   };
@@ -66,3 +62,4 @@ foreach($query as $data)
     config
     );
   </script>
+

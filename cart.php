@@ -12,7 +12,6 @@ else {
   echo "<script> location.href='user_login.php' </script>";
 }
 
-if(isset($_SESSION['cart'])){ 
  if(count($_SESSION['cart'])>0){
  }
  else{
@@ -21,7 +20,6 @@ if(isset($_SESSION['cart'])){
     window.location.href='index.php';
     </script>");
 }
-}else{ echo '0';} 
 // session_destroy();
 
 

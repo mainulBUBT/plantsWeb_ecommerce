@@ -203,7 +203,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                     <button type="submit" class="btn btn-theme btn-block">Register</button>
                   </form>
                 </div>
-                <p class="text-muted text-center mb-2">Already have an account? <a href="login.html" class="text-primary ml-1">login</a></p>
+                <p class="text-muted text-center mb-2">Already have an account? <a href="user_login.php" class="text-primary ml-1">login</a></p>
               </div>
               <div class="col-lg-6 d-none d-lg-inline-block">
                 <div class="account-block rounded-right">

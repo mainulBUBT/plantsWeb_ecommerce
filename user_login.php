@@ -148,7 +148,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="col-lg-6">
               <div class="p-5">
                 <div class="mb-3">
-                  <h3 class="h4 font-weight-bold text-theme">Register</h3>
+                  <h3 class="h4 font-weight-bold text-theme">Login</h3>
                 </div>
                 <!-- <h6 class="h5 mb-0">Just Do Register.</h6>
                   <p class="text-muted mt-2 mb-5">If You Really Want To Know, Look In The Register.</p> -->
@@ -177,7 +177,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                     <button type="submit" class="btn btn-theme btn-block">Login</button>
                   </form>
                 </div>
-                <p class="text-muted text-center mb-2">Already have an account? <a href="login.html" class="text-primary ml-1">login</a></p>
+                <p class="text-muted text-center mb-2">New! need an account? <a href="user_register.php" class="text-primary ml-1">Register</a></p>
               </div>
               <div class="col-lg-6 d-none d-lg-inline-block">
                 <div class="account-block rounded-right">
