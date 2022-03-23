@@ -20,6 +20,10 @@
                                     <a class="nav-link" href="completed_orders.php">Completed Orders</a>
                                 </nav>
                             </div>
+                            <a class="nav-link" href="add_products.php">
+                                <div class="sb-nav-link-icon"><i class="fas fa-plus-square"></i></i></div>
+                                Add Products
+                            </a>
                             <div class="sb-sidenav-menu-heading">Addons</div>
                             <a class="nav-link" href="users.php">
                                 <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
