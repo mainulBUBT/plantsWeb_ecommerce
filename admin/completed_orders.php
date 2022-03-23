@@ -2,20 +2,19 @@
 include '../config/database.php';
 
 if(isset($_POST['update'])){
-	$user_id = $_POST['user_id'];
-	$name = $_POST['username'];
-	$mobile = $_POST['mobile'];
-	$address = $_POST['address'];
+	$order_id = $_POST['order_id'];
+	$status = $_POST['status'];
+	echo $status;
 
-	$sql = "UPDATE users SET username=?,mobile=?, address=? WHERE user_id=?";
+	$sql = "UPDATE orders SET order_status=? WHERE order_id=?";
 	$stmt = $mysqli->prepare($sql);
-	$stmt -> bind_param('ssss',$name, $mobile, $address, $user_id);
+	$stmt -> bind_param('ss',$status, $order_id);
 
 	if ($stmt -> execute() === TRUE) {
 		?>
 		<script type="text/javascript">
 			alert("Record has been upadated successfully .");
-			window.location = "users.php";
+			window.location = "completed_orders.php";
 		</script>
 		<?php
 	} else {
@@ -26,23 +25,23 @@ if(isset($_POST['update'])){
 
 if(isset($_POST['delete']))
 {
-  $id = $_POST['delid'];
-  echo $id;
+	$id = $_POST['delid'];
+	echo $id;
 
-  $sql = "DELETE FROM users WHERE user_id=?";
-  $stmt = $mysqli -> prepare($sql);
-  $stmt -> bind_param('s', $id);
-  
-  if ($stmt -> execute() === TRUE) {
-    ?>
-    <script type="text/javascript">
-      alert("User successfully removed.");
-      window.location = "users.php";
-    </script>
-    <?php
-  } else {
-    echo "Error updating record: " . $conn->error;
-  }
+	$sql = "DELETE FROM orders WHERE order_id=?";
+	$stmt = $mysqli -> prepare($sql);
+	$stmt -> bind_param('s', $id);
+
+	if ($stmt -> execute() === TRUE) {
+		?>
+		<script type="text/javascript">
+			alert("Order successfully removed.");
+			window.location = "completed_orders.php";
+		</script>
+		<?php
+	} else {
+		echo "Error updating record: " . $conn->error;
+	}
 
 
 
@@ -69,38 +68,45 @@ if(isset($_POST['delete']))
 				<div class="card mb-4">
 					<div class="card-header">
 						<i class="fas fa-table me-1"></i>
-						All Users 
+						Completed Orders List 
 					</div>
 					<div class="card-body">
 						<table id="datatablesSimple">
 							<thead>
 								<tr>
-									<th>ID</th>
-									<th>Name</th>
-									<th>Email</th>
-									<th>Mobile No.</th>
-									<th>Address</th>
-									<th>Joined</th>
+									<th scope="col">Invoice</th>
+									<th scope="col">Name</th>
+									<th scope="col">Unit Price</th>
+									<th scope="col">Quantity</th>
+									<th scope="col">Total Amount</th>
+									<th scope="col">Category</th>
+									<th scope="col">Order Status</th>
 									<th colspan="2" style="text-align: center;">Action</th>
 								</tr>
 							</thead>
 							<tbody>
 								<?php
-								$sql_user = "SELECT * FROM `users`";
+								$sql_user = "SELECT o.order_id as order_id, p.product_name,p.price, c.cat_name, (CASE WHEN o.order_status = 1 THEN 'Completed' WHEN o.order_status = 0 THEN 'Pending' end) as order_status, o.quantity, o.amount
+								FROM products p
+								INNER JOIN category c ON p.cat_id = c.cat_id
+								INNER JOIN orders o ON p.plant_id   = o.product_id
+								INNER JOIN users u ON o.user_id = u.user_id
+								WHERE o.order_status = 1 ORDER BY o.order_id";
 								$result = $mysqli->query($sql_user);
 								while($row = $result->fetch_assoc())
 								{
 
 									?>
 									<tr>
-										<td><?php echo $row["user_id"];?></td>
-										<td><?php echo $row["username"];?></td>
-										<td><?php echo $row["email"];?></td>
-										<td><?php echo $row["mobile"];?></td>
-										<td><?php echo $row["address"];?></td>
-										<td><?php echo  date('d-m-Y', strtotime($row['date']));?></td>
+										<td><?php echo $row["order_id"]?></td>
+										<td><?php echo $row["product_name"]?></td>
+										<td><?php echo $row["price"]?></td>
+										<td><?php echo $row["quantity"]?></td>
+										<td><?php echo $row["amount"]?></td>
+										<td><?php echo $row["cat_name"]?></td>
+										<td><?php echo $row["order_status"]?></td>
 										<td><button type="button" class="btn btn-warning editbtn" data-bs-toggle="modal" data-bs-target="#editmodal"><i class="fas fa-edit"></i></button></td>
-										<td><button type="button" class="btn btn-danger dlt" data-bs-toggle="modal" data-bs-target="#delete"><i class="fas fa-trash"></i></button></td>
+										<td><button data-id='<?php echo $row['order_id']; ?>' type="button" class="btn btn-danger dlt" data-bs-toggle="modal" data-bs-target="#delete"><i class="fas fa-trash"></i></button></td>
 
 									</tr>
 									<?php
@@ -123,24 +129,24 @@ if(isset($_POST['delete']))
 
 					<!-- Modal Header -->
 					<div class="modal-header">
-						<h4 class="modal-title">Delete User</h4>
+						<h4 class="modal-title">Delete Order</h4>
 						<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 					</div>
 
 					<!-- Modal body -->
 					<div class="modal-body">
-						Do you remove the user from database?
+						Do you remove the order from database?
 						<form action="" method="POST">
-						<div class="form-group">
-								<label for="exampleInputID">User ID</label>
+							<div class="form-group">
+								<label for="exampleInputID">Order ID</label>
 								<input class="form-control" type="text" id="delid" name="delid" readonly>
 							</div>
-					</div>
+						</div>
 
-					<!-- Modal footer -->
+						<!-- Modal footer -->
 
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 							<button type="submit" class="btn btn-danger" data-bs-dismiss="modal" name="delete">Confirm</button>
 						</form>
 					</div>
@@ -157,7 +163,7 @@ if(isset($_POST['delete']))
 
 					<!-- Modal Header -->
 					<div class="modal-header">
-						<h4 class="modal-title">Update User Infortamtion</h4>
+						<h4 class="modal-title">Update Order Infortamtion</h4>
 						<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 					</div>
 
@@ -165,24 +171,15 @@ if(isset($_POST['delete']))
 					<div class="modal-body">
 						<form action="" method="POST">
 							<div class="form-group">
-								<label for="exampleInputID">User ID</label>
-								<input class="form-control" type="text" id="user_id" name="user_id" readonly>
+								<label for="exampleInputID">Invoice ID</label>
+								<input class="form-control" type="text" id="order_id" name="order_id" readonly>
 							</div>
 							<div class="form-group">
-								<label for="exampleInputEmail1">User Email</label>
-								<input class="form-control" type="text" id="email" name="email" readonly>
-							</div>
-							<div class="form-group">
-								<label for="exampleInputName">User Name</label>
-								<input class="form-control" type="text" id="username" name="username">
-							</div>
-							<div class="form-group">
-								<label for="exampleInputMobile">User Mobile Number</label>
-								<input class="form-control" type="text" id="mobile" name="mobile">
-							</div>
-							<div class="form-group">
-								<label for="exampleInputAddress">User Address</label>
-								<input class="form-control" type="text" id="address" name="address" >
+								<label for="exampleFormControlSelect1">Select Status</label>
+								<select class="form-select" id="status" name="status">
+									<option value="0">Pending</option>
+									<option value="1">Completed</option>
+								</select> 
 							</div>
 						</div>
 
@@ -200,9 +197,11 @@ if(isset($_POST['delete']))
 
 
 		<?php include 'includes/footer.php';?>
+
+		
 		<script>
 			$(document).ready(function(){
-				$('#datatablesSimple').on('click', '.editbtn', function() {
+				$('#datatablesSimple').on('click','.editbtn', function() {
 					$('#editmodal').modal('show');
 					$tr = $(this).closest('tr');
 					var data= $tr.children("td").map(function(){
@@ -211,11 +210,8 @@ if(isset($_POST['delete']))
 
 					console.log(data);
 
-					$('#user_id').val(data[0]);
-					$('#username').val(data[1]);
-					$('#email').val(data[2]);
-					$('#mobile').val(data[3]);
-					$('#address').val(data[4]);
+					$('#order_id').val(data[0]);
+
 
 
 
@@ -243,3 +239,5 @@ if(isset($_POST['delete']))
 			});
 
 		</script>
+
+		
