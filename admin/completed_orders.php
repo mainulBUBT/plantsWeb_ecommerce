@@ -4,21 +4,33 @@ include '../config/database.php';
 if(isset($_POST['update'])){
 	$order_id = $_POST['order_id'];
 	$status = $_POST['status'];
-	echo $status;
 
-	$sql = "UPDATE orders SET order_status=? WHERE order_id=?";
-	$stmt = $mysqli->prepare($sql);
-	$stmt -> bind_param('ss',$status, $order_id);
+	if ($status == "0") {
 
-	if ($stmt -> execute() === TRUE) {
-		?>
-		<script type="text/javascript">
-			alert("Record has been upadated successfully .");
-			window.location = "completed_orders.php";
-		</script>
-		<?php
-	} else {
-		echo "Error updating record: " . $conn->error;
+		$find = "SELECT product_id, quantity FROM orders WHERE order_id = $order_id";
+		$found = $mysqli->query($find);
+		$call = $found->fetch_assoc();
+
+		$product_id=$call['product_id'];
+		$quant=$call['quantity'];
+
+		$sql = "UPDATE orders SET order_status=? WHERE order_id=?";
+		$stmt = $mysqli->prepare($sql);
+		$stmt -> bind_param('ss',$status, $order_id);
+
+		if ($stmt -> execute() === TRUE) {
+			$product = "UPDATE products SET quantity=quantity+$quant WHERE plant_id=$product_id";
+			if($mysqli->query($product)===TRUE){
+				?>
+				<script type="text/javascript">
+					alert("Record has been upadated successfully .");
+					window.location = "completed_orders.php";
+				</script>
+				<?php
+			}
+		} else {
+			echo "Error updating record: " . $mysqli->error;
+		}
 	}
 }
 
@@ -178,7 +190,6 @@ if(isset($_POST['delete']))
 								<label for="exampleFormControlSelect1">Select Status</label>
 								<select class="form-select" id="status" name="status">
 									<option value="0">Pending</option>
-									<option value="1">Completed</option>
 								</select> 
 							</div>
 						</div>

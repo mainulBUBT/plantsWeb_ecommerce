@@ -52,48 +52,7 @@ $stmt->execute();
       background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23fff' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath d='M5.25 0l-4 4 4 4 1.5-1.5L4.25 4l2.5-2.5L5.25 0z'/%3e%3c/svg%3e");
       background-color: #000000db;
     }
-    .price span {
-      font-size: 18px
-    }
-    .cut {
-      text-decoration: line-through;
-      color: red
-    }
-    .icons i {
-      font-size: 17px;
-      color: green;
-      margin-right: 2px
-    }
-    .offers i {
-      color: green
-    }
-    .delivery i {
-      color: blue
-    }
-    label.radio {
-      cursor: pointer
-    }
-    label.radio input {
-      position: absolute;
-      top: 0;
-      left: 0;
-      visibility: hidden;
-      pointer-events: none
-    }
-    label.radio span {
-      padding: 2px 11px;
-      margin-right: 3px;
-      border: 1px solid #8f37aa;
-      display: inline-block;
-      color: #8f37aa;
-      border-radius: 3px;
-      text-transform: uppercase
-    }
-    label.radio input:checked+span {
-      border-color: #8f37aa;
-      background-color: #8f37aa;
-      color: #fff
-    }
+   
 
   </style>
 </head>
