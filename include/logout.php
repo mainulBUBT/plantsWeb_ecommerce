@@ -6,6 +6,11 @@ if(isset($_SESSION['USER_NAME']))
 	unset($_SESSION["USER_ID"]);
 	header("Location:../user_login.php");
 }
+elseif (isset($_SESSION['ADMIN_NAME'])) {
+	unset($_SESSION["ADMIN_NAME"]);
+	unset($_SESSION["ADMIN_ID"]);
+	header("Location:../admin/login.php");
+}
 
 
 ?>
