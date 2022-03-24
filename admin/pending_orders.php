@@ -118,7 +118,7 @@ if(isset($_POST['delete']))
 										<td><?php echo $row["cat_name"]?></td>
 										<td><?php echo $row["order_status"]?></td>
 										<td><button type="button" class="btn btn-warning editbtn" data-bs-toggle="modal" data-bs-target="#editmodal"><i class="fas fa-edit"></i></button></td>
-										<td><button data-id='<?php echo $row['order_id']; ?>' type="button" class="btn btn-danger dlt" data-bs-toggle="modal" data-bs-target="#delete"><i class="fas fa-trash"></i></button></td>
+										<td><button type="button" class="btn btn-danger dlt" data-bs-toggle="modal" data-bs-target="#delete"><i class="fas fa-trash"></i></button></td>
 
 									</tr>
 									<?php

@@ -1,6 +1,6 @@
 <?php
 if(isset($_SESSION['USER_ID'])) {?>
-	<div class="text-center">PlantsWEB - 2022</div>
+	<div class="text-center foot">PlantsWEB - 2022</div>
 <?php }
 else{?>
 	<footer class="footer">

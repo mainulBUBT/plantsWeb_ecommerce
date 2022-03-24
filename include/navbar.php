@@ -50,7 +50,7 @@
  								<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Account</a>
  								<div class="dropdown-menu">
  									<a class="dropdown-item" href="./user_area.php">Dashboard</a>
- 									<a class="dropdown-item" href="#">Settings</a>
+ 									<a class="dropdown-item" href="user_settings.php">Settings</a>
  									<div class="dropdown-divider"></div>
  									<a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>
  								</div>

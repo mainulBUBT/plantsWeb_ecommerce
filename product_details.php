@@ -11,50 +11,75 @@ if(isset($_GET['id'])){
 
 }
 
-$sql = "SELECT * FROM products WHERE plant_id=?"; // SQL with parameters
-$stmt = $mysqli->prepare($sql); 
-$stmt->bind_param("i", $id);
-$stmt->execute();
-  $result = $stmt->get_result(); // get the mysqli result
+// $sql = "SELECT * FROM products WHERE plant_id=?"; // SQL with parameters
+// $stmt = $mysqli->prepare($sql); 
+// $stmt->bind_param("i", $id);
+// $stmt->execute();
+//   $result = $stmt->get_result(); // get the mysqli result
+//   $row = $result->fetch_assoc();
+
+
+if(isset($_POST['add-cart'])){
+
+  $id = $_POST['add-cart'];
+  $sql = "SELECT * FROM products WHERE plant_id='$id'"; // SQL with parameters
+  $result = $mysqli->query($sql); // get the mysqli result
   $row = $result->fetch_assoc();
-  print_r($row);
+  $quantity = "1";
+  if (isset($_SESSION['cart'][$id])) {
 
-  ?>
+    echo 'added';
+  }
+  else{
+    $_SESSION['cart'][$id] = array(
+      'id' => $row['plant_id'],
+      'name' => $row['product_name'],
+      'price' => $row['price'],
+      'quantity' => $quantity,
+      'img' => $row['pic_1'],
+      'cat' => $row['cat_id'],
+    );
+  }
 
-  <?php include "include/header.php"; ?>
-  <title>PlantsWeb | Nature is Beatuful</title>
-  <style>
 
-    .carousel-item {
-      width: 100%
-    }
-    .carousel-indicators {
-      position: absolute;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      z-index: 15;
-      display: -ms-flexbox;
-      display: flex;
-      -ms-flex-pack: center;
-      justify-content: center;
-      padding-left: 0;
-      margin-right: 15%;
-      margin-left: 15%;
-      list-style: none;
-      background-color: #00000085;
-    }
-    .carousel-control-next-icon {
-      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23fff' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath d='M2.75 0l-1.5 1.5L3.75 4l-2.5 2.5L2.75 8l4-4-4-4z'/%3e%3c/svg%3e");
-      background-color: #000000db;
-    }
-    .carousel-control-prev-icon {
-      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23fff' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath d='M5.25 0l-4 4 4 4 1.5-1.5L4.25 4l2.5-2.5L5.25 0z'/%3e%3c/svg%3e");
-      background-color: #000000db;
-    }
-   
+}
 
-  </style>
+?>
+
+<?php include "include/header.php"; ?>
+<title>PlantsWeb | Nature is Beatuful</title>
+<style>
+
+  .carousel-item {
+    width: 100%
+  }
+  .carousel-indicators {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 15;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: center;
+    justify-content: center;
+    padding-left: 0;
+    margin-right: 15%;
+    margin-left: 15%;
+    list-style: none;
+    background-color: #00000085;
+  }
+  .carousel-control-next-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23fff' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath d='M2.75 0l-1.5 1.5L3.75 4l-2.5 2.5L2.75 8l4-4-4-4z'/%3e%3c/svg%3e");
+    background-color: #000000db;
+  }
+  .carousel-control-prev-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23fff' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath d='M5.25 0l-4 4 4 4 1.5-1.5L4.25 4l2.5-2.5L5.25 0z'/%3e%3c/svg%3e");
+    background-color: #000000db;
+  }
+
+
+</style>
 </head>
 
 <body>
@@ -92,27 +117,31 @@ $stmt->execute();
               <div class="col-md-7">
                 <h4><?php echo $row['product_name'];?></h4>
                 <div class="price"><span class="mr-2">৳ <?php echo $row['price'];?></span></div>
-                <div class="d-flex flex-row">
-                  <div class="icons mr-2"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-o"></i><i class="fa fa-star-o"></i></div><span>1200 ratings &amp; 564 reviews</span>
-                </div>
-                <div class="d-flex align-items-center mt-4 offers mb-1"><i class="fa fa-check-square-o mt-1"></i><span class="ml-1 font-weight-bold">Bank Offers</span><span class="ml-1">20% Instant Discount on SBI Credit Cards<br></span></div>
-                <div class="d-flex align-items-center offers mb-1"><i class="fa fa-check-square-o mt-1"></i><span class="ml-1 font-weight-bold">Bank Offers</span><span class="ml-1">5% Unlimited Cashback on Axis Bank Credit Card<br></span></div>
-                <div class="d-flex align-items-center offers mb-1"><i class="fa fa-check-square-o mt-1"></i><span class="ml-1 font-weight-bold">Bank Offers</span><span class="ml-1">Extra 5% off* with Axis Bank Buzz Credit Card<br></span></div>
-                <div class="d-flex align-items-center offers"><i class="fa fa-check-square-o mt-1"></i><span class="ml-1 font-weight-bold">Bank Offers</span><span class="ml-1">20% Instant Discount on pay with&nbsp;&nbsp;google wallet<br></span></div>
-                <div class="d-flex align-items-center mt-5 delivery"><i class="fa fa-map-marker"></i><span class="ml-2">Delivery by 23 Jul, Tuesday<br></span><span class="ml-2 mr-2">|<br></span><span class="ml-2 mr-2 text-success">FREE<br></span></div>
                 <hr>
-                <div class="d-flex align-items-center mt-2"> <label class="radio"> <input type="radio" name="ram" value="128GB" checked> <span>128GB</span> </label> <label class="radio"> <input type="radio" name="ram" value="256GB"> <span>256GB</span> </label> <label class="radio"> <input type="radio" name="ram" value="256GB"> <span>512GB</span> </label> </div>
-                <div><span class="font-weight-bold">Seller:</span><span class="ml-2">Sargam Electronics</span></div>
-                <div class="mt-3"><button class="btn btn-dark mr-2" type="button">ADD TO CART</button><button class="btn btn-success" type="button">BUY NOW</button></div>
+                <div class="d-flex flex-row">
+                  <h4>Description</h4>
+                </div>
+                <?php echo $row['details']?>
+                <div class="d-flex align-items-center mt-5 delivery"><i class="fa fa-clock-o"></i>
+                  <span class="ml-2"><?php echo date("d-m-Y", strtotime($row['date']));?><br></span><span class="ml-2 mr-2">|<br></span><span class="ml-2 mr-2 text-success">CASH ON DELIVERY<br></span>|<br></span><span class="ml-2 mr-2 text-success"><?php if($row['availability']=='1'){
+                    echo "In Stock";
+                  }else{
+                    echo "Stock Out";
+                  }?><br></span></div>
+                  <hr>
+                  <form action="" method="POST">
+                    <div class="mt-3"><button class="btn btn-dark mr-2 btn-block" type="submit" name="add-cart" value="<?php echo $row["plant_id"]?>">ADD TO CART</button>
+                    </form>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  </div> 
+      </div> 
 
-  <?php include "include/footer.php"; ?>
-</body>
-</html>
+      <?php include "include/footer.php"; ?>
+    </body>
+    </html>
 

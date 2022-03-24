@@ -36,7 +36,7 @@ if(isset($_POST['add-cart'])){
 <?php include "include/header.php"; ?>
 <title>PlantsWeb | Nature is Beatuful</title>
 <style>
- 
+
 </style>
 
 </head>
@@ -130,7 +130,23 @@ if(isset($_POST['add-cart'])){
   <div class="container">
     <div class="row mb-md-2">
       <?php
-      $sql = "SELECT * FROM `products`ORDER BY plant_id DESC";
+        // pagination query
+      if(isset($_GET['page'])) {
+        $page = $_GET['page'];
+      } else {
+        $page = 1;
+      }
+
+      $no_of_records_per_page = 10;
+      $offset = ($page-1) * $no_of_records_per_page;
+
+      $total_pages_sql = "SELECT count(*) FROM products";
+      $results = $mysqli->query($total_pages_sql);
+      $rows = $results->fetch_array();
+      $total_rows = $rows[0];
+      $total_pages = ceil($total_rows / $no_of_records_per_page);
+                            // end pagination
+      $sql = "SELECT * FROM `products`ORDER BY plant_id DESC LIMIT $offset, $no_of_records_per_page";
       $result = $mysqli -> query($sql);
       while( $row = $result -> fetch_assoc())
       {
@@ -142,12 +158,12 @@ if(isset($_POST['add-cart'])){
              <img src='assets/images/<?php echo $row['pic_1']?>' height='220px' class='card-img-top' alt='image'> </a>
              <div class="card-body">
               <a href="#">
-                <h5 class="font-weight-normal text-center text-title"><?php echo $row["product_name"]?></h5>
+                <h5 class="font-weight-normal text-center text-title"><a href="product_details.php?id=<?php echo $row["plant_id"]?>"><?php echo $row["product_name"]?></a></h5>
               </a>
               <!--  <div class="post-meta"><span class="small lh-120"><i class="fas fa-map-marker-alt mr-2"></i>Los-Angeles, Hollywood, USA</span></div> -->
 
-              <h3 class="text-center">
-                $<?php echo $row["price"];?>
+              <h3 class="text-center text-head">
+                ৳<?php echo $row["price"];?>
               </h3>
 
               <form action="index.php" method="POST">
@@ -162,11 +178,11 @@ if(isset($_POST['add-cart'])){
    </div>
 
 
-   <div class="row py-4 mt-md-5">
-    <div class="col text-center">
-      <a href="#" class="btn btn-lg shadow btn-primary mt-1">Browse all</a>
-    </div>
-  </div>
+   <ul class="pagination justify-content-center mt-3 pb-3">
+    <li class="page-item <?php echo $page <=1 ? 'disabled' : '' ?>"><a class="page-link" href="index.php?page=<?php echo ($page-1) ?>">Previous</a></li>
+    <li class="page-item"><a class="page-link" href="index.php?page=<?php echo $page ?>"><?php echo $page; ?></a></li>
+    <li class="page-item <?php echo $page >= $total_pages ? 'disabled' : '' ?>"><a class="page-link" href="index.php?page=<?php echo ($page+1) ?>">Next</a></li>
+  </ul>
 </div>
 </section>
 
