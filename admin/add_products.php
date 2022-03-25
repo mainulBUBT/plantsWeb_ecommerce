@@ -1,5 +1,17 @@
 <?php 
+
+session_start();
+
 include '../config/database.php';
+
+if(isset($_SESSION['ADMIN_NAME']))
+{
+  $NAME= $_SESSION["ADMIN_NAME"];
+  $ids = $_SESSION["ADMIN_ID"];
+}
+else {
+  echo "<script> location.href='login.php' </script>";
+}
 
 if(isset($_POST['submit']))
 {

@@ -21,7 +21,7 @@
                     </nav>
                 </div>
                 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts2" aria-expanded="false" aria-controls="collapseLayouts">
-                    <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                    <div class="sb-nav-link-icon"><i class="fab fa-product-hunt"></i></div>
                     Products
                     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                 </a>
@@ -36,11 +36,15 @@
                     <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                     Users
                 </a>
+                <a class="nav-link" href="payments.php">
+                    <div class="sb-nav-link-icon"><i class="fas fa-dollar-sign"></i></div>
+                    Payment Details
+                </a>
             </div>
         </div>
         <div class="sb-sidenav-footer">
             <div class="small">Logged in as:</div>
-            <?php echo $_SESSION['ADMIN_NAME'];?>
+           ADMIN
         </div>
     </nav>
 </div>
