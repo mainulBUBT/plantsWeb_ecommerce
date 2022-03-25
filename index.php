@@ -87,7 +87,7 @@ if(isset($_POST['add-cart'])){
             <!-- bbb_adv Item -->
             <div class="bbb_adv d-flex flex-row align-items-center justify-content-start">
               <div class="bbb_adv_content">
-                <div class="bbb_adv_title"><a href="#">Plants</a></div>
+                <div class="bbb_adv_title"><a href="category.php?cat=plants">Plants</a></div>
                 <div class="bbb_adv_text">Get all HousePlants or Raw Plants local price</div>
               </div>
               <div class="ml-auto">
@@ -99,7 +99,7 @@ if(isset($_POST['add-cart'])){
             <!-- bbb_adv Item -->
             <div class="bbb_adv d-flex flex-row align-items-center justify-content-start">
               <div class="bbb_adv_content">
-                <div class="bbb_adv_title_2"><a href="#">Flowers</a></div>
+                <div class="bbb_adv_title_2"><a href="category.php?cat=flowers">Flowers</a></div>
                 <div class="bbb_adv_text">All new headphones with upto 45% sale.</div>
               </div>
               <div class="ml-auto">
@@ -111,7 +111,7 @@ if(isset($_POST['add-cart'])){
             <!-- bbb_adv Item -->
             <div class="bbb_adv d-flex flex-row align-items-center justify-content-start">
               <div class="bbb_adv_content">
-                <div class="bbb_adv_title"><a href="#">Fertilizer</a></div>
+                <div class="bbb_adv_title"><a href="category.php?cat=fertilizers">Fertilizer</a></div>
                 <div class="bbb_adv_text">2018 trendy product here on BBBootstrap.com</div>
               </div>
               <div class="ml-auto">
@@ -145,7 +145,11 @@ if(isset($_POST['add-cart'])){
       $rows = $results->fetch_array();
       $total_rows = $rows[0];
       $total_pages = ceil($total_rows / $no_of_records_per_page);
+
                             // end pagination
+
+      
+
       $sql = "SELECT * FROM `products`ORDER BY plant_id DESC LIMIT $offset, $no_of_records_per_page";
       $result = $mysqli -> query($sql);
       while( $row = $result -> fetch_assoc())
