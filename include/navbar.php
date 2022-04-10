@@ -36,7 +36,7 @@
 
  								while($rows = $result->fetch_assoc()){?>
  									<div class="dropdown-divider"></div>
- 									<a class="dropdown-item" href="#"><?php echo ucfirst($rows['cat_name']); ?></a>
+ 									<a class="dropdown-item" href="category.php?cat=<?php echo $rows['cat_name']; ?>"><?php echo ucfirst($rows['cat_name']); ?></a>
  									<?php
  								}
  								?>
